@@ -1,0 +1,69 @@
+body {
+    background-color: black;
+}
+
+a[href^='#'] {
+    font-size: 0.7em;
+    font-style: bold;
+    vertical-align: super;
+}
+
+img {
+    display: table;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.body {
+    max-width:600px;
+    width: 600px;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.body > .title,
+.body > .epigraph,
+.section {
+    margin-top: 2.5em;
+    padding: 2em;
+
+    background-color: #cc7700;
+    border-radius: 2em;
+}
+
+.title,
+.subtitle,
+.poem {
+    text-align: center;
+}
+
+.section > p {
+    text-indent: 2em;
+}
+
+.cite {
+    font-style: italic;
+}
+
+.epigraph {
+    font-style: italic;
+    text-align: right;
+}
+
+.unknown-tag {
+    background-color: red;
+}
+
+#back-button {
+    font-size: 1.2em;
+    position: fixed;
+    bottom: 1em;
+    left: 1em;
+    display:none;
+
+    background-color: rgba(255, 255, 255, 0.4);
+    padding: 1em;
+    border: 0;
+    border-radius: 2em;
+}
