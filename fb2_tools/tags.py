@@ -25,14 +25,19 @@ SECTION = ns + 'section'
 DESCRIPTION = ns + 'description'
 TITLE_INFO = ns + 'title-info'
 BOOK_TITLE = ns + 'book-title'
+ANNOTATION = ns + 'annotation'
+COVER_PAGE = ns + 'coverpage'
 
 AUTHOR = ns + 'author'
 FIRST_NAME = ns + 'first-name'
+MIDDLE_NAME = ns + 'middle-name'
 LAST_NAME = ns + 'last-name'
-# class Tag:
-# 	def __init__(self, section_name: str, name_space=ns):
-# 		self.tag_name = section_name.replace("_", "-", -1).lower()
-# 		self.value = f"{name_space}{self.tag_name}"
-#
-# 	def __str__(self):
-# 		return self.value
+ID = ns + 'id'
+
+DATE = ns + 'date'
+LANG = ns + 'land'
+
+DOCUMENT_INFO = ns + 'document-info'
+PUBLISH_INFO = ns + 'publish-info'
+
+CUSTOM_UNKNOWN_TAG = ns + 'unknown-tag'

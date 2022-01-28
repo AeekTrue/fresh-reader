@@ -3,64 +3,79 @@ from xml.etree import ElementTree as ET
 from .tags import *
 from .attribs import *
 
+html_templates = {
+	DESCRIPTION: ("div", {"id": "description", "class": "body"}),
+	TITLE_INFO: ("div", {"id": "title-info", "class": "section"}),
+	AUTHOR: ("h1", {"class": "author"}),
+	COVER_PAGE: ("div", {"class": "cover-page"}),
+	ANNOTATION: ("div", {"class": "annotation"}),
+	BOOK_TITLE: ("h1", {"class": "book-title"}),
+	DOCUMENT_INFO: ("div", {"id": "document-info", "class": "section"}),
+	BODY: ("div", {"class": "body"}),
+	SECTION: ("div", {"class": "section"}),
+	TITLE: ("h1", {"class": "title"}),
+	SUBTITLE: ("h3", {"class": "subtitle"}),
+	PARAGRAPH: ("p",),
+	EMPTY_LINE: ("br",),
+	STRONG: ("b",),
+	EMPHASIS: ("em",),
+	SUB: ("sub",),
+	SUP: ("sup",),
+	EPIGRAPH: ("div", {"class": "epigraph"}),
+	CITE: ("div", {"class": "cite"}),
+	POEM: ("div", {"class": "poem"}),
+	STANZA: ("p", {"class": "stanza"}),
+	V: ("div", {"class": "v"}),
+	TEXT_AUTHOR: ("div", {"class": "text-author"}),
+	LINK: ("a",),
+	IMAGE: ("img",),
+	CUSTOM_UNKNOWN_TAG: ("div", {"unknown-tag": ""}),
+}
+
 
 class FictionBook:
 	def __init__(self, path):
 		self._tree = ET.parse(path)
 		self.raw = self._tree.getroot()
-		self.description = Description(self.raw.find(f"./{DESCRIPTION}"))
+		self.description = self.raw.find(f"./{DESCRIPTION}")
+		self.title_info = self.description.find(f"./{TITLE_INFO}")
 
 	def gen_html(self):
 		html = ET.Element("div", {"id": "fiction-book"})
-
+		html.append(self.make_element(self.description))
 		body = self.raw.find(f"./{BODY}")
 		notes = self.raw.find(f"./{BODY}[@name='notes']")
 		comments = self.raw.find(f"./{BODY}[@name='comments']")
 		for e in (body, notes, comments):
 			if e is not None:
 				html.append(self.make_element(e))
-
 		return html
 
 	def make_element(self, element: ET.Element) -> ET.Element:
-		html: ET.Element
+		if element is None:
+			return ET.Element("div", {"class": "empty"})
 
-		html_templates = {
-			BODY: ET.Element("div", {"class": "body"}),
-			SECTION: ET.Element("div", {"class": "section"}),
-			TITLE: ET.Element("h1", {"class": "title"}),
-			SUBTITLE: ET.Element("h3", {"class": "subtitle"}),
-			PARAGRAPH: ET.Element("p"),
-			EMPTY_LINE: ET.Element("br"),
-			STRONG: ET.Element("b"),
-			EMPHASIS: ET.Element("em"),
-			SUB: ET.Element("sub"),
-			SUP: ET.Element("sup"),
-			EPIGRAPH: ET.Element("div", {"class": "epigraph"}),
-			CITE: ET.Element("div", {"class": "cite"}),
-			POEM: ET.Element("div", {"class": "poem"}),
-			STANZA: ET.Element("p", {"class": "stanza"}),
-			V: ET.Element("div", {"class": "v"}),
-			TEXT_AUTHOR: ET.Element("div", {"class": "text-author"}),
-			LINK: ET.Element("a"),
-			IMAGE: ET.Element("img"),
-		}
-		html = html_templates.get(element.tag)
-		if html is None:
+		if element.tag in html_templates.keys():
+			html = ET.Element(*html_templates.get(element.tag))
+		else:
 			print(f"Unknown tag: {element.tag}")
-			html = ET.Element("div", {"class": f"unknown-tag {element.tag}"})
+			html = ET.Element(*html_templates.get(CUSTOM_UNKNOWN_TAG))
+			html.set("class", f"{element.tag} unknown-tag")
 
-		html.attrib.update(element.attrib)
+		if element.get("id") is not None:
+			html.attrib["id"] = element.get("id")
 
 		if element.tag == LINK:
 			link = element.get(HREF)
 			html.set("href", link)
-			html.set("onclick", f" y = saveScrollPos()")
+			if link[0] == '#':
+				html.set("class", "local-link")
 		elif element.tag == IMAGE:
 			binary_id = element.get(HREF)[1:]
+			content_type = element.get("content-type")
 			binary = self.raw.find(f"./{BINARY}[@id='{binary_id}']").text
-			html.set("src", f"data:image/jpeg;base64, {binary}")
-			html.set("alt", "<PICTURE>")
+			html.set("src", f"data:{content_type};base64, {binary}")
+			html.set("alt", f"<PICTURE {binary_id}>")
 
 		html.text = element.text
 		html.tail = element.tail
