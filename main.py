@@ -9,7 +9,7 @@ import webbrowser
 
 
 def setup():
-	if not os.path.exists(WORK_DIR):
+	if not os.path.exists(WORK_DIR) and IS_BINARY_FILE:
 		shutil.copytree(FACTORY_DIR, WORK_DIR)
 
 
