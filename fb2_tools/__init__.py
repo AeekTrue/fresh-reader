@@ -5,7 +5,7 @@ from .attribs import *
 
 html_templates = {
 	DESCRIPTION: ("div", {"id": "description", "class": "body"}),
-	TITLE_INFO: ("div", {"id": "title-info", "class": "body"}),
+	TITLE_INFO: ("div", {"id": "title-info", "class": "section"}),
 	AUTHOR: ("h1", {"class": "author"}),
 	FIRST_NAME: ("div", {"class": "first-name"}),
 	MIDDLE_NAME: ("div", {"class": "middle-name"}),
@@ -17,6 +17,7 @@ html_templates = {
 	GENRE: ("div", {"class": "genre"}),
 	DATE: ("div", {"class": "date"}),
 	DOCUMENT_INFO: ("div", {"id": "document-info", "class": "section"}),
+	PUBLISH_INFO: ("div", {"id": "publish_info", "class": "section"}),
 	LANG: ("div", {"class": "lang"}),
 	BODY: ("div", {"class": "body"}),
 	SECTION: ("div", {"class": "section"}),
@@ -50,7 +51,7 @@ class FictionBook:
 
 	def gen_html(self):
 		html = ET.Element("div", {"id": "fiction-book"})
-		html.append(self.make_element(self.title_info))
+		html.append(self.make_element(self.description))
 		for e in self.bodies:
 			if e is not None:
 				html.append(self.make_element(e))
