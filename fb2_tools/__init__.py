@@ -5,12 +5,19 @@ from .attribs import *
 
 html_templates = {
 	DESCRIPTION: ("div", {"id": "description", "class": "body"}),
-	TITLE_INFO: ("div", {"id": "title-info", "class": "section"}),
+	TITLE_INFO: ("div", {"id": "title-info", "class": "body"}),
 	AUTHOR: ("h1", {"class": "author"}),
+	FIRST_NAME: ("div", {"class": "first-name"}),
+	MIDDLE_NAME: ("div", {"class": "middle-name"}),
+	LAST_NAME: ("div", {"class": "last-name"}),
+	ID: ("div", {"class": "fb2-id"}),
 	COVER_PAGE: ("div", {"class": "cover-page"}),
 	ANNOTATION: ("div", {"class": "annotation"}),
 	BOOK_TITLE: ("h1", {"class": "book-title"}),
+	GENRE: ("div", {"class": "genre"}),
+	DATE: ("div", {"class": "date"}),
 	DOCUMENT_INFO: ("div", {"id": "document-info", "class": "section"}),
+	LANG: ("div", {"class": "lang"}),
 	BODY: ("div", {"class": "body"}),
 	SECTION: ("div", {"class": "section"}),
 	TITLE: ("h1", {"class": "title"}),
@@ -39,14 +46,12 @@ class FictionBook:
 		self.raw = self._tree.getroot()
 		self.description = self.raw.find(f"./{DESCRIPTION}")
 		self.title_info = self.description.find(f"./{TITLE_INFO}")
+		self.bodies = self.raw.findall(f"./{BODY}")
 
 	def gen_html(self):
 		html = ET.Element("div", {"id": "fiction-book"})
-		html.append(self.make_element(self.description))
-		body = self.raw.find(f"./{BODY}")
-		notes = self.raw.find(f"./{BODY}[@name='notes']")
-		comments = self.raw.find(f"./{BODY}[@name='comments']")
-		for e in (body, notes, comments):
+		html.append(self.make_element(self.title_info))
+		for e in self.bodies:
 			if e is not None:
 				html.append(self.make_element(e))
 		return html
