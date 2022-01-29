@@ -24,8 +24,10 @@ img {
 
 .body > .title,
 .body > .epigraph,
+#title-info > *,
 .section {
     margin-top: 2.5em;
+    margin-bottom: .5em;
     padding: 2em;
 
     background-color: #cc7700;
@@ -54,6 +56,11 @@ img {
     opacity: 0.5;
 }
 
+#fiction-book .fb2-id,
+#fiction-book .genre,
+#fiction-book .lang {
+    display: none;
+}
 #document-info {
     height: 100%;
     background-color: gray;

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>{% block title %} Fresh Reader {% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+</head>
+<body>
+{% block fiction_book %}
+<h1>Empty :(</h1>
+{% endblock %}
+<div id="sidebar"></div>
+<button id="back-button" onclick="goToScrollPos()">Назад в будущее</button>
+<script id="js" type="text/javascript" src="{{ url_for('static', filename='js/script.js')}}"></script>
+</body>
+</html>
