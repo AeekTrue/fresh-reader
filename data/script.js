@@ -1,12 +1,17 @@
-var y = 0;
+let y = 0;
+
+const local_links = document.getElementsByClassName("local-link")
+for(let i = 0; i < local_links.length; ++i) {
+    local_links[i].setAttribute("onclick", "saveScrollPos()")
+}
 function saveScrollPos() {
-    var back_btn = document.getElementById("back-button")
+    let back_btn = document.getElementById("back-button")
     back_btn.style.display = 'block';
     return window.scrollY;
 }
 
 function goToScrollPos() {
-    var back_btn = document.getElementById("back-button")
+    let back_btn = document.getElementById("back-button")
     back_btn.style.display = 'none';
     window.scrollTo(0, y);
 }
