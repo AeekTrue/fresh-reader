@@ -2,7 +2,7 @@ let y = 0;
 
 const local_links = document.getElementsByClassName("local-link")
 for(let i = 0; i < local_links.length; ++i) {
-    local_links[i].setAttribute("onclick", "saveScrollPos()")
+    local_links[i].setAttribute("onclick", "y = saveScrollPos()")
 }
 function saveScrollPos() {
     let back_btn = document.getElementById("back-button")
