@@ -15,6 +15,7 @@ else:
 
 TEMPLATE_FILE = os.path.join(WORK_DIR, "template.html")
 DEMO_FILE = os.path.join(WORK_DIR, "demo.html")
-STYLE_FILE = os.path.join(WORK_DIR, "style.css")
+READER_STYLE_FILE = os.path.join(WORK_DIR, "reader.css")
+FB_STYLE_FILE = os.path.join(WORK_DIR, "fiction-book.css")
 SCRIPT_FILE = os.path.join(WORK_DIR, "script.js")
 OUTPUT_FILE = os.path.join(WORK_DIR, "fiction-book.html")

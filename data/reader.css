@@ -1,0 +1,25 @@
+#sidebar {
+    height: 100%;
+    width: 600px;
+    background-color: gray;
+    position: fixed;
+    transition-duration: 1s;
+    right: -550px;
+    top: 0;
+} #sidebar:hover {
+    right: 0;
+  }
+
+#back-button {
+    font-size: 1.2em;
+    position: fixed;
+    bottom: 1em;
+    left: 1em;
+    display:none;
+
+    background-color: white;
+    opacity: 0.5;
+    padding: 1em;
+    border: 0;
+    border-radius: 2em;
+}

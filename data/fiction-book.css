@@ -53,28 +53,3 @@ img {
     background-color: red;
     opacity: 0.5;
 }
-
-#document-info {
-    height: 100%;
-    background-color: gray;
-    position: fixed;
-    transition-duration: 1s;
-    right: -500px;
-    top: 0;
-} #document-info:hover {
-    right: 0;
-  }
-
-#back-button {
-    font-size: 1.2em;
-    position: fixed;
-    bottom: 1em;
-    left: 1em;
-    display:none;
-
-    background-color: white;
-    opacity: 0.5;
-    padding: 1em;
-    border: 0;
-    border-radius: 2em;
-}

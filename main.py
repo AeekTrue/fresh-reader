@@ -17,16 +17,16 @@ def gen_html_page(book: FictionBook):
 	html_tree = ET.parse(TEMPLATE_FILE)
 	html = html_tree.getroot()
 	with open(SCRIPT_FILE) as f:
-		js = f.read()
+		html.find("./body/script[@id='js']").text = f.read()
 
-	with open(STYLE_FILE) as f:
-		css = f.read()
+	with open(FB_STYLE_FILE) as f:
+		html.find("./head/style[@id='fiction-book-style']").text = f.read()
+
+	with open(READER_STYLE_FILE) as f:
+		html.find("./head/style[@id='reader-style']").text = f.read()
 
 	content = book.gen_html()
-
-	html.find("./head/style[@id='css']").text = css
 	html.find("./body").insert(0, content)
-	html.find("./body/script[@id='js']").text = js
 	return ET.tostring(html, method="html").decode("utf-8")
 
 
