@@ -25,6 +25,8 @@ SECTION = ns + 'section'
 DESCRIPTION = ns + 'description'
 TITLE_INFO = ns + 'title-info'
 BOOK_TITLE = ns + 'book-title'
+GENRE = ns + 'genre'
+
 ANNOTATION = ns + 'annotation'
 COVER_PAGE = ns + 'coverpage'
 
@@ -35,7 +37,7 @@ LAST_NAME = ns + 'last-name'
 ID = ns + 'id'
 
 DATE = ns + 'date'
-LANG = ns + 'land'
+LANG = ns + 'lang'
 
 DOCUMENT_INFO = ns + 'document-info'
 PUBLISH_INFO = ns + 'publish-info'
