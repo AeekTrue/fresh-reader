@@ -2,8 +2,7 @@
 <FictionBook xmlns:l="http://www.w3.org/1999/xlink" xmlns="http://www.gribuser.ru/xml/fictionbook/2.0">
     <description>
         <title-info>
-            <genre>foreign_sf</genre>
-            <genre>sf_social</genre>
+            <genre>comp_soft</genre>
             <author>
                 <nickname>Aeek True</nickname>
             </author>
@@ -21,6 +20,7 @@
         <title>FreshReader-v1.0</title>
         <section>
             <p>Это инструкция к FreshReader-v1.0</p>
+            <p>inst: <a l:href="https://www.instagram.com/aeektrue/">@aeektrue</a></p>
         </section>
     </body>
 </FictionBook>
