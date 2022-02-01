@@ -1,15 +1,33 @@
-#sidebar {
-    height: 100%;
+.sidebar {
     width: 600px;
-    background-color: gray;
+    max-width: 90%;
+    max-height: 45%;
     position: fixed;
-    transition-duration: 1s;
-    right: -550px;
-    top: 0;
-} #sidebar:hover {
-    right: 0;
-  }
+    overflow-y: auto;
+    padding: 1em;
+    border-bottom-left-radius: 2em;
+    border-top-left-radius: 2em;
 
+    transition-duration: 1s;
+    background-color: gray;
+    opacity: .5;
+    right: -590px;
+} .sidebar:hover {
+    right: 0;
+    opacity: 1;
+  }
+#top-sidebar {
+    height: auto;
+    top: 0;
+}
+#bottom-sidebar {
+    height: auto;
+    bottom: 0;
+}
+
+.sidebar-title{
+    text-align: center;
+}
 #back-button {
     font-size: 1.2em;
     position: fixed;

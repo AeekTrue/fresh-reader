@@ -16,8 +16,8 @@ html_templates = {
 	BOOK_TITLE: ("h1", {"class": "book-title"}),
 	GENRE: ("div", {"class": "genre"}),
 	DATE: ("div", {"class": "date"}),
-	DOCUMENT_INFO: ("div", {"id": "document-info", "class": "section"}),
-	PUBLISH_INFO: ("div", {"id": "publish_info", "class": "section"}),
+	DOCUMENT_INFO: ("div", {"id": "document-info"}),
+	PUBLISH_INFO: ("div", {"id": "publish_info",}),
 	LANG: ("div", {"class": "lang"}),
 	BODY: ("div", {"class": "body"}),
 	SECTION: ("div", {"class": "section"}),
@@ -45,8 +45,9 @@ class FictionBook:
 	def __init__(self, path):
 		self._tree = ET.parse(path)
 		self.raw = self._tree.getroot()
-		self.description = self.raw.find(f"./{DESCRIPTION}")
-		self.title_info = self.description.find(f"./{TITLE_INFO}")
+		self.description = self.raw.find(xpath.DESCRIPTION)
+		self.title_info = self.raw.find(xpath.TITLE_INFO)
+		self.title = self.title_info.find(f"./{BOOK_TITLE}").text
 		self.bodies = self.raw.findall(f"./{BODY}")
 
 	def html(self, path: str):

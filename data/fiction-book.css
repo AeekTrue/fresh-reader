@@ -15,7 +15,7 @@ img {
 }
 
 .body {
-    max-width:600px;
+    max-width:100%;
     width: 600px;
     display: block;
     margin-right: auto;
@@ -51,5 +51,4 @@ img {
 
 .unknown-tag {
     background-color: red;
-    opacity: 0.5;
 }

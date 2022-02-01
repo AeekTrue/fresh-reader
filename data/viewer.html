@@ -2,16 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ title }}</title>
+    <title>{{ title }} | Fresh Reader</title>
     <style>{% include 'viewer.css' %}</style>
     <style>{% include 'fiction-book.css' %}</style>
 </head>
 <body>
-<div id="sidebar">
-    <h3>O документе:</h3>
+<div id="top-sidebar" class="sidebar">
+    <h3 class="sidebar-title">O документе:</h3>
+    {{ document_info }}
+    <hr>
+    {{ publish_info }}
 </div>
 
-{{ fiction_book }}
+<div id="bottom-sidebar" class="sidebar">
+    <h3 class="sidebar-title">Содержание:</h3>
+</div>
+
+<div class="fiction-book">
+    <div class="body">
+        {{ title_info }}
+    </div>
+
+    {{ fiction_book }}
+
+    {{ notes }}
+</div>
+
 <button id="back-button" onclick="goToScrollPos()">Назад в будущее</button>
 <script type="text/javascript">{% include 'script.js' %}</script>
 </body>
