@@ -4,11 +4,10 @@
     max-height: 45%;
     position: fixed;
     overflow-y: auto;
-    padding: 1em;
     border-bottom-left-radius: 2em;
     border-top-left-radius: 2em;
 
-    transition-duration: 1s;
+    transition-duration: .5s;
     background-color: gray;
     opacity: .5;
     right: -590px;
@@ -25,6 +24,9 @@
     bottom: 0;
 }
 
+.sidebar > * {
+    margin-left: 3em;
+}
 .sidebar-title{
     text-align: center;
 }

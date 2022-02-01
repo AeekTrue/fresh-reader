@@ -35,6 +35,11 @@ img {
 .book-title, .title, .subtitle, .poem {
     text-align: center;
 }
+.fiction-book .fb2-id,
+.fiction-book .lang,
+.fiction-book .genre {
+    display: none;
+}
 
 .section > p {
     text-indent: 2em;
