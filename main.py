@@ -1,5 +1,7 @@
 import shutil
+import sys
 
+import config
 from config import *
 from viewer import viewer
 
@@ -10,8 +12,11 @@ def setup():
 
 
 def main():
+	path = DEMO_FILE
 	if len(sys.argv) < 2:
-		path = DEMO_FILE
+		pass
+	elif sys.argv[1] in ('-v', '--version'):
+		print(config.VERSION)
 	else:
 		path = sys.argv[-1]
 

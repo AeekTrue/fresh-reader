@@ -1,6 +1,7 @@
 import os
 import sys
 
+NAME = "fresh-reader"
 VERSION = "0.0.0"
 IS_BINARY_FILE = False
 
