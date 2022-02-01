@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <style>{% include 'viewer.css' %}</style>
+    <style>{% include 'fiction-book.css' %}</style>
+</head>
+<body>
+<div id="sidebar">
+    <h3>O документе:</h3>
+</div>
+
+{{ fiction_book }}
+<button id="back-button" onclick="goToScrollPos()">Назад в будущее</button>
+<script type="text/javascript">{% include 'script.js' %}</script>
+</body>
+</html>
