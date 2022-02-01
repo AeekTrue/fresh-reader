@@ -1,4 +1,3 @@
-import os
 from xml.etree import ElementTree as ET
 from .tags import *
 from .attribs import *

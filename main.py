@@ -1,9 +1,8 @@
 import shutil
 import sys
-
-import config
+import os
 from config import *
-from path import FACTORY_DIR, WORK_DIR
+from path import FACTORY_DIR, WORK_DIR, DEMO_FILE
 from viewer import viewer
 
 
@@ -16,7 +15,7 @@ def main():
 	if len(sys.argv) < 2:
 		viewer.open_fiction_book(DEMO_FILE)
 	elif sys.argv[1] in ('-v', '--version'):
-		print(config.VERSION)
+		print(VERSION)
 	else:
 		path = sys.argv[-1]
 		viewer.open_fiction_book(path)
