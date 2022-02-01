@@ -4,8 +4,10 @@ import config
 import fb2_tools
 from xml.etree import ElementTree as ET
 
+import path
+
 env = jinja2.Environment(
-	loader=jinja2.FileSystemLoader(config.WORK_DIR),
+	loader=jinja2.FileSystemLoader(path.WORK_DIR),
 	autoescape=jinja2.select_autoescape([])
 )
 

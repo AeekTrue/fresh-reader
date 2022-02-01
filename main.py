@@ -3,6 +3,7 @@ import sys
 
 import config
 from config import *
+from path import FACTORY_DIR, WORK_DIR
 from viewer import viewer
 
 
