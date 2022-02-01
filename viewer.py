@@ -2,11 +2,16 @@ import webbrowser
 import jinja2
 import config
 import fb2_tools
+from xml.etree import ElementTree as ET
 
 env = jinja2.Environment(
 	loader=jinja2.FileSystemLoader(config.WORK_DIR),
 	autoescape=jinja2.select_autoescape([])
 )
+
+
+def element2str(element: ET.Element):
+	return ET.tostring(element, method="html").decode("utf-8")
 
 
 class Viewer:
@@ -21,7 +26,14 @@ class Viewer:
 
 	def render_view_page(self, book: fb2_tools.FictionBook) -> str:
 		template = env.get_template(config.VIEWER_TEMPLATE_FILE)
-		html = template.render(title="lol", fiction_book="<h1>kek</h1>")
+		html = template.render(
+			title=book.title,
+			title_info=book.html(fb2_tools.xpath.TITLE_INFO),
+			fiction_book=book.html(fb2_tools.xpath.BODY),
+			notes=book.html(fb2_tools.xpath.NOTES),
+			document_info=book.html(fb2_tools.xpath.DOCUMENT_INFO),
+			publish_info=book.html(fb2_tools.xpath.PUBLISH_INFO)
+		)
 		return html
 
 	def save_view_page(self, text: str):

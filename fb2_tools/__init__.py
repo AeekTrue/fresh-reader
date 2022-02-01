@@ -2,7 +2,7 @@ import os
 from xml.etree import ElementTree as ET
 from .tags import *
 from .attribs import *
-
+from . import xpath
 html_templates = {
 	DESCRIPTION: ("div", {"id": "description", "class": "body"}),
 	TITLE_INFO: ("div", {"id": "title-info", "class": "section"}),
@@ -49,13 +49,23 @@ class FictionBook:
 		self.title_info = self.description.find(f"./{TITLE_INFO}")
 		self.bodies = self.raw.findall(f"./{BODY}")
 
-	def gen_html(self):
+	def html(self, path: str):
+		"""
+		Generate HTML from given fb2 element.
+		:param path: a string having element's XPath
+		:return: HTML string
+		"""
+		element = self.raw.find(path)
+		html = self.make_element(element)
+		return ET.tostring(html, method="html").decode("utf-8")
+
+	def get_html_of_book(self):
 		html = ET.Element("div", {"id": "fiction-book"})
 		html.append(self.make_element(self.description))
 		for e in self.bodies:
 			if e is not None:
 				html.append(self.make_element(e))
-		return html
+		return ET.tostring(html, method="html").decode("utf-8")
 
 	def make_element(self, element: ET.Element) -> ET.Element:
 		if element is None:
