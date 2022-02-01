@@ -1,5 +1,8 @@
 # fresh-reader
 FB2 reader based on web interface.
+
+Fresh-reader opens books in your web-browser.
+
 ## Usage:
 To open a file run
 
