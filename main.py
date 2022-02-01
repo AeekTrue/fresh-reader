@@ -12,15 +12,13 @@ def setup():
 
 
 def main():
-	path = DEMO_FILE
 	if len(sys.argv) < 2:
-		pass
+		viewer.open_fiction_book(DEMO_FILE)
 	elif sys.argv[1] in ('-v', '--version'):
 		print(config.VERSION)
 	else:
 		path = sys.argv[-1]
-
-	viewer.open_fiction_book(path)
+		viewer.open_fiction_book(path)
 
 
 if __name__ == '__main__':
