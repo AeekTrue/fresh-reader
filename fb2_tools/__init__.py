@@ -2,6 +2,7 @@ from xml.etree import ElementTree as ET
 from .tags import *
 from .attribs import *
 from . import xpath
+
 html_templates = {
 	DESCRIPTION: ("div", {"id": "description", "class": "body"}),
 	TITLE_INFO: ("div", {"id": "title-info", "class": "section"}),
@@ -16,7 +17,7 @@ html_templates = {
 	GENRE: ("div", {"class": "genre"}),
 	DATE: ("div", {"class": "date"}),
 	DOCUMENT_INFO: ("div", {"id": "document-info"}),
-	PUBLISH_INFO: ("div", {"id": "publish_info",}),
+	PUBLISH_INFO: ("div", {"id": "publish_info", }),
 	LANG: ("div", {"class": "lang"}),
 	BODY: ("div", {"class": "body"}),
 	SECTION: ("div", {"class": "section"}),
@@ -37,97 +38,148 @@ html_templates = {
 	LINK: ("a",),
 	IMAGE: ("img",),
 	CUSTOM_UNKNOWN_TAG: ("div", {"unknown-tag": ""}),
+	BINARY: ("img",),
 }
 
 
-class FictionBook:
-	def __init__(self, path):
-		self._tree = ET.parse(path)
-		self.raw = self._tree.getroot()
-		self.description = self.raw.find(xpath.DESCRIPTION)
-		self.title_info = self.raw.find(xpath.TITLE_INFO)
-		self.title = self.title_info.find(f"./{BOOK_TITLE}").text
-		self.bodies = self.raw.findall(f"./{BODY}")
-
-	def html(self, path: str):
-		"""
-		Generate HTML from given fb2 element.
-		:param path: a string having element's XPath
-		:return: HTML string
-		"""
-		element = self.raw.find(path)
-		html = self.make_element(element)
-		return ET.tostring(html, method="html").decode("utf-8")
-
-	def get_html_of_book(self):
-		html = ET.Element("div", {"id": "fiction-book"})
-		html.append(self.make_element(self.description))
-		for e in self.bodies:
-			if e is not None:
-				html.append(self.make_element(e))
-		return ET.tostring(html, method="html").decode("utf-8")
-
-	def make_element(self, element: ET.Element) -> ET.Element:
-		if element is None:
-			return ET.Element("div", {"class": "empty"})
-
-		if element.tag in html_templates.keys():
-			html = ET.Element(*html_templates.get(element.tag))
+class FB2Element:
+	def __init__(self, xml_element: ET.Element):
+		if xml_element is not None:
+			self.xml = xml_element
 		else:
-			print(f"Unknown tag: {element.tag}")
+			self.xml = ET.Element("div", {"class": "not-found"})
+			self.xml.text = ""
+		self.attributes = dict()
+		self.text = self.xml.text
+
+	def make_html_attributes(self):
+		if self.xml.get("id") is not None:
+			self.attributes["id"] = self.xml.get("id")
+
+	def make_html_element(self) -> ET.Element:
+		if self.xml.tag in html_templates.keys():
+			html = ET.Element(*html_templates.get(self.xml.tag))
+		else:
+			print(f"Unknown tag: {self.xml.tag}")
 			html = ET.Element(*html_templates.get(CUSTOM_UNKNOWN_TAG))
-			html.set("class", f"{element.tag} unknown-tag")
+			html.set("class", f"{self.xml.tag} unknown-tag")
 
-		if element.get("id") is not None:
-			html.attrib["id"] = element.get("id")
+		self.make_html_attributes()
+		html.attrib.update(self.attributes)
+		html.text = self.xml.text
+		html.tail = self.xml.tail
+		for child in self.xml:
+			if child.tag == LINK:
+				fb2_child = Link(child)
+			elif child.tag == IMAGE:
+				fb2_child = Image(child)
+			elif child.tag == BINARY:
+				fb2_child = Binary(child)
+			else:
+				fb2_child = FB2Element(child)
+			html.append(fb2_child.make_html_element())
 
-		if element.tag == LINK:
-			link = element.get(HREF)
-			html.set("href", link)
-			if link[0] == '#':
-				html.set("class", "local-link")
-		elif element.tag == IMAGE:
-			binary_id = element.get(HREF)[1:]
-			content_type = element.get("content-type")
-			binary = self.raw.find(f"./{BINARY}[@id='{binary_id}']").text
-			html.set("src", f"data:{content_type};base64, {binary}")
-			html.set("alt", f"<PICTURE {binary_id}>")
-
-		html.text = element.text
-		html.tail = element.tail
-		for child in element:
-			html.append(self.make_element(child))
 		return html
 
-
-class Tag:
-	def __init__(self, fb2_element: ET.Element):
-		self.raw = fb2_element
-
-
-class Author(Tag):
-	def __init__(self, fb2_element: ET.Element):
-		super(Author, self).__init__(fb2_element)
-		ft_name_elem = fb2_element.find(f"./{FIRST_NAME}")
-		lt_name_elem = fb2_element.find(f"./{LAST_NAME}")
-		if ft_name_elem is not None:
-			self.first_name = ft_name_elem.text
-		else:
-			self.first_name = ""
-
-		if lt_name_elem is not None:
-			self.last_name = lt_name_elem.text
-		else:
-			self.last_name = ""
+	def get_html_string(self) -> str:
+		html = self.make_html_element()
+		text = ET.tostring(html, method="html").decode("utf-8")
+		return text
 
 	def __str__(self):
-		return self.first_name + ' ' + self.last_name
+		return self.get_html_string()
 
 
-class Description(Tag):
-	def __init__(self, fb2_element: ET.Element):
-		super(Description, self).__init__(fb2_element)
-		self._raw = fb2_element
-		self.title_info = ""
-		self.book_title = fb2_element.find(f"./{TITLE_INFO}/{BOOK_TITLE}").text
-		self.author = Author(fb2_element.find(f"./{TITLE_INFO}/{AUTHOR}"))
+class FictionBook(FB2Element):
+	def __init__(self, path):
+		root = ET.parse(path).getroot()
+		super(FictionBook, self).__init__(root)
+		self.description = Description(self.xml.find(xpath.DESCRIPTION))
+		self.body = FB2Element(self.xml.find(xpath.BODY))
+		self.notes = FB2Element(self.xml.find(xpath.NOTES))
+		self.binaries = [Binary(b) for b in self.xml.findall(xpath.BINARY)]
+
+class Description(FB2Element):
+	def __init__(self, xml_element: ET.Element):
+		super(Description, self).__init__(xml_element)
+		self.title_info = TitleInfo(self.xml.find(f"./{TITLE_INFO}"))
+		self.document_info = DocumentInfo(self.xml.find(f"./{DOCUMENT_INFO}"))
+		self.publish_info = PublishInfo(self.xml.find(f"./{PUBLISH_INFO}"))
+
+
+class Link(FB2Element):
+	def make_html_attributes(self):
+		super(Link, self).make_html_attributes()
+		link = self.xml.get(HREF)
+		self.attributes["href"] = link
+		if link[0] == '#':
+			self.attributes["class"] = "local-link"
+
+
+class Image(FB2Element):
+	def make_html_attributes(self):
+		super(Image, self).make_html_attributes()
+		src = self.xml.get(HREF)
+		self.attributes["src"] = src
+
+
+class Binary(FB2Element):
+	def make_html_attributes(self):
+		super(Binary, self).make_html_attributes()
+		content_type = self.xml.get("content-type")
+		binary = self.xml.text
+		self.attributes["src"] = f"data:{content_type};base64, {binary}"
+		self.attributes["alt"] = f"<PICTURE>"
+
+
+class CoverPage(FB2Element):
+	pass
+
+
+class Annotation(FB2Element):
+	pass
+
+
+class Date(FB2Element):
+	pass
+
+
+class TitleInfo(FB2Element):
+	def __init__(self, xml_element: ET.Element):
+		super(TitleInfo, self).__init__(xml_element)
+		self.genres = [g.text for g in self.xml.findall(f"./{GENRE}")]
+		self.authors = [Author(a) for a in self.xml.findall(f"./{AUTHOR}")]
+		self.book_title = self.xml.find(f"./{BOOK_TITLE}").text
+		self.annotation = Annotation(self.xml.find(f"./{ANNOTATION}"))
+		self.keywords = ''
+		self.date = Date(self.xml.find(f"./{DATE}"))
+		self.cover_page = CoverPage(self.xml.find(f"./{COVER_PAGE}"))
+		self.lang = FB2Element(self.xml.find(f"./{LANG}")).text
+		self.src_lang = ''
+		self.translators = []
+		self.sequences = []
+
+
+class DocumentInfo(FB2Element):
+	def __init__(self, xml_element: ET.Element):
+		super(DocumentInfo, self).__init__(xml_element)
+		self.authors = [Author(a) for a in self.xml.findall(f"./{AUTHOR}")]
+
+
+class PublishInfo(FB2Element):
+	pass
+
+
+class Author(FB2Element):
+	def __init__(self, xml_element: ET.Element):
+		super(Author, self).__init__(xml_element)
+		self.first_name = FB2Element(self.xml.find(f"./{FIRST_NAME}")).text
+		self.middle_name = FB2Element(self.xml.find(f"./{MIDDLE_NAME}")).text
+		self.last_name = FB2Element(self.xml.find(f"./{LAST_NAME}")).text
+		self.nickname = FB2Element(self.xml.find(f"./{NICKNAME}")).text
+		self.home_pages = []
+		self.emails = []
+		self.id = ''
+
+	def __str__(self):
+		return f"{self.first_name} {self.middle_name} {self.last_name} {self.nickname}"

@@ -2,16 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ title }} | Fresh Reader</title>
+    <title>{{ book.description.title_info.book_title }} | Fresh Reader</title>
     <style>{% include 'viewer.css' %}</style>
     <style>{% include 'fiction-book.css' %}</style>
 </head>
 <body>
 <div id="top-sidebar" class="sidebar">
     <h3 class="sidebar-title">About document:</h3>
-    {{ document_info }}
+    Документ подготовил:{{ book.description.document_info.authors[0] }}
     <hr>
-    {{ publish_info }}
+    {{ book.description.publish_info }}
 </div>
 
 <div id="bottom-sidebar" class="sidebar">
@@ -21,12 +21,18 @@
 
 <div class="fiction-book">
     <div class="body">
-        {{ title_info }}
+        {{ book.description.title_info }}
     </div>
 
-    {{ fiction_book }}
+    {{ book.body }}
 
-    {{ notes }}
+    {{ book.notes }}
+
+    {% for bin in book.binaries %}
+        {{ bin }}
+    {% endfor %}
+
+
 </div>
 
 <button id="back-button" onclick="goToScrollPos()">Назад в будущее</button>
