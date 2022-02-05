@@ -41,6 +41,8 @@ DATE = ns + 'date'
 LANG = ns + 'lang'
 
 DOCUMENT_INFO = ns + 'document-info'
+VERSION = ns + 'version'
+HISTORY = ns + 'history'
 PUBLISH_INFO = ns + 'publish-info'
 
 CUSTOM_UNKNOWN_TAG = ns + 'unknown-tag'
