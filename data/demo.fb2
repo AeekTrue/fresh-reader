@@ -6,20 +6,22 @@
             <author>
                 <nickname>Aeek True</nickname>
             </author>
-            <book-title>FreshReader-v1.0 instruction</book-title>
-            <date value="2022-01-26">2022</date>
+            <book-title>FreshReader-v0.1.1 instruction</book-title>
+            <date value="2022-02-05">2022</date>
         </title-info>
         <document-info>
             <author>
                 <nickname>Aeek True</nickname>
             </author>
-            <date value="2022-01-26">2022</date>
+            <date value="2022-02-05">2022</date>
         </document-info>
     </description>
     <body>
-        <title>FreshReader-v1.0</title>
+        <title>FreshReader-v0.1.1</title>
         <section>
-            <p>Это инструкция к FreshReader-v1.0</p>
+            <p>Это инструкция к FreshReader-v0.1.1</p>
+            <p>Этот проект пока в разработке, читайте нас на <a l:href="https://github.com/AeekTrue/fresh-reader.git">GitHub</a></p>
+            <p>Designed by Aeek True </p>
             <p>inst: <a l:href="https://www.instagram.com/aeektrue/">@aeektrue</a></p>
         </section>
     </body>

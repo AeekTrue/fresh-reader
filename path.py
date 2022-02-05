@@ -3,7 +3,7 @@ import sys
 from config import IS_BINARY_FILE
 
 if IS_BINARY_FILE:
-	HOME_DIR = os.environ.get("HOME")
+	HOME_DIR = os.path.expanduser("~")
 	FACTORY_DIR = os.path.join(sys._MEIPASS, "data")
 	WORK_DIR = os.path.join(HOME_DIR, ".fresh-reader")
 
