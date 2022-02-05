@@ -34,6 +34,7 @@ AUTHOR = ns + 'author'
 FIRST_NAME = ns + 'first-name'
 MIDDLE_NAME = ns + 'middle-name'
 LAST_NAME = ns + 'last-name'
+NICKNAME = ns + 'nickname'
 ID = ns + 'id'
 
 DATE = ns + 'date'
