@@ -2,14 +2,14 @@ body {
     background-color: black;
 }
 
-a[href^='#'] {
+img {
+    max-width: 100%;
+}
+
+.local-link {
     font-size: 0.7em;
     font-weight: bold;
     vertical-align: super;
-}
-
-img {
-    max-width: 100%;
 }
 
 .body {
