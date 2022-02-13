@@ -107,7 +107,6 @@ class FictionBook:
 			html.set("alt", f"<PICTURE {binary_id}>")
 		elif element.tag == SECTION:
 			if element[0].tag == TITLE:
-				print("Named section!")
 				if html.attrib.get("id") is None:
 					section_id = f"section_{next(id_generator)}"
 					html.attrib["id"] = section_id
