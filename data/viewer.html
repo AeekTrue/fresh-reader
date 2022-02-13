@@ -16,7 +16,13 @@
 
 <div id="bottom-sidebar" class="sidebar">
     <h3 class="sidebar-title">Contents:</h3>
-    <i>Coming soon :)</i>
+    <ul>
+        {% for element in book.contents %}
+            <li>
+                <a href="#{{ element[1] }}">{{ element[0] }}</a>
+            </li>
+        {% endfor %}
+    </ul>
 </div>
 
 <div class="fiction-book">

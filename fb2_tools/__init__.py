@@ -43,6 +43,15 @@ html_templates = {
 }
 
 
+def gen_id():
+	id = 0
+	while True:
+		yield id
+		id += 1
+
+id_generator = gen_id()
+
+
 class FictionBook:
 	def __init__(self, path):
 		tree = ET.parse(path)
@@ -51,8 +60,7 @@ class FictionBook:
 		self.title_info = self.raw.find(xpath.TITLE_INFO)
 		self.title = self.title_info.find(f"./{BOOK_TITLE}").text
 		self.bodies = self.raw.findall(f"./{BODY}")
-		self.contents = self.get_contents()
-		print(self.contents)
+		self.contents = []
 
 	def html(self, path: str):
 		"""
@@ -97,19 +105,19 @@ class FictionBook:
 			binary = self.raw.find(f"./{BINARY}[@id='{binary_id}']").text
 			html.set("src", f"data:{content_type};base64, {binary}")
 			html.set("alt", f"<PICTURE {binary_id}>")
-
+		elif element.tag == SECTION:
+			if element[0].tag == TITLE:
+				print("Named section!")
+				if html.attrib.get("id") is None:
+					section_id = f"section_{next(id_generator)}"
+					html.attrib["id"] = section_id
+					name = ET.tostring(element[0], method="html").decode("utf-8")
+					self.contents.append((name, section_id))
 		html.text = element.text
 		html.tail = element.tail
 		for child in element:
 			html.append(self.make_element(child))
 		return html
-
-	def get_contents(self):
-		contents = []
-		for element in self.bodies[0]:
-			if element.tag == SECTION and element[0] == TITLE:
-				contents.append(element[0])
-		return contents
 
 
 

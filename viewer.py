@@ -28,6 +28,7 @@ class Viewer:
 	def render_view_page(self, book: fb2_tools.FictionBook) -> str:
 		template = env.get_template(path.VIEWER_TEMPLATE_FILE)
 		html = template.render(
+			book=book,
 			title=book.title,
 			title_info=book.html(fb2_tools.xpath.TITLE_INFO),
 			fiction_book=book.html(fb2_tools.xpath.BODY),
