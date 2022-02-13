@@ -1,14 +1,12 @@
-import shutil
 import sys
-import os
+
 from config import *
-from path import FACTORY_DIR, WORK_DIR, DEMO_FILE
 from viewer import viewer
 
 
 def setup():
-	if not os.path.exists(WORK_DIR) and IS_BINARY_FILE:
-		shutil.copytree(FACTORY_DIR, WORK_DIR)
+	if not os.path.exists(USER_DATA_DIR):
+		os.mkdir(USER_DATA_DIR)
 
 
 def main():
