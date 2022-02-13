@@ -45,8 +45,8 @@ html_templates = {
 
 class FictionBook:
 	def __init__(self, path):
-		self._tree = ET.parse(path)
-		self.raw = self._tree.getroot()
+		tree = ET.parse(path)
+		self.raw = tree.getroot()
 		self.description = self.raw.find(xpath.DESCRIPTION)
 		self.title_info = self.raw.find(xpath.TITLE_INFO)
 		self.title = self.title_info.find(f"./{BOOK_TITLE}").text
