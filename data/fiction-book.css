@@ -12,6 +12,9 @@ img {
     vertical-align: super;
 }
 
+.contents-link {
+    color: #074891;
+}
 .body {
     max-width:100%;
     width: 600px;

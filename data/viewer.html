@@ -19,7 +19,7 @@
     <ul>
         {% for element in book.contents %}
             <li>
-                <a href="#{{ element[1] }}">{{ element[0] }}</a>
+                <a href="#{{ element[1] }}" class="contents-link">{{ element[0] }}</a>
             </li>
         {% endfor %}
     </ul>
