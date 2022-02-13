@@ -51,6 +51,8 @@ class FictionBook:
 		self.title_info = self.raw.find(xpath.TITLE_INFO)
 		self.title = self.title_info.find(f"./{BOOK_TITLE}").text
 		self.bodies = self.raw.findall(f"./{BODY}")
+		self.contents = self.get_contents()
+		print(self.contents)
 
 	def html(self, path: str):
 		"""
@@ -101,6 +103,15 @@ class FictionBook:
 		for child in element:
 			html.append(self.make_element(child))
 		return html
+
+	def get_contents(self):
+		contents = []
+		for element in self.bodies[0]:
+			if element.tag == SECTION and element[0] == TITLE:
+				contents.append(element[0])
+		return contents
+
+
 
 
 class Tag:
