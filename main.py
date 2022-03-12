@@ -1,5 +1,3 @@
-import sys
-
 from config import *
 from viewer import viewer
 

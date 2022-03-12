@@ -2,6 +2,7 @@ from xml.etree import ElementTree as ET
 from .tags import *
 from .attribs import *
 from . import xpath
+
 html_templates = {
 	DESCRIPTION: ("div", {"id": "description", "class": "body"}),
 	TITLE_INFO: ("div", {"id": "title-info", "class": "section"}),
@@ -19,7 +20,7 @@ html_templates = {
 	DOCUMENT_INFO: ("div", {"id": "document-info"}),
 	VERSION: ("div", {"class": "version"}),
 	HISTORY: ("div", {"class": "history"}),
-	PUBLISH_INFO: ("div", {"id": "publish_info",}),
+	PUBLISH_INFO: ("div", {"id": "publish_info", }),
 	LANG: ("div", {"class": "lang"}),
 	BODY: ("div", {"class": "body"}),
 	SECTION: ("div", {"class": "section"}),
@@ -49,7 +50,8 @@ def gen_id():
 		yield id
 		id += 1
 
-id_generator = gen_id()
+
+section_id_generator = gen_id()
 
 
 class FictionBook:
@@ -61,7 +63,7 @@ class FictionBook:
 		self.title = self.title_info.find(f"./{BOOK_TITLE}").text
 		self.bodies = self.raw.findall(f"./{BODY}")
 		self.contents = []
-
+	
 	def html(self, path: str):
 		"""
 		Generate HTML from given fb2 element.
@@ -71,7 +73,7 @@ class FictionBook:
 		element = self.raw.find(path)
 		html = self.make_element(element)
 		return ET.tostring(html, method="html").decode("utf-8")
-
+	
 	def get_html_of_book(self):
 		html = ET.Element("div", {"id": "fiction-book"})
 		html.append(self.make_element(self.description))
@@ -79,21 +81,21 @@ class FictionBook:
 			if e is not None:
 				html.append(self.make_element(e))
 		return ET.tostring(html, method="html").decode("utf-8")
-
+	
 	def make_element(self, element: ET.Element) -> ET.Element:
 		if element is None:
 			return ET.Element("div", {"class": "empty"})
-
+		
 		if element.tag in html_templates.keys():
 			html = ET.Element(*html_templates.get(element.tag))
 		else:
 			print(f"Unknown tag: {element.tag}")
 			html = ET.Element(*html_templates.get(CUSTOM_UNKNOWN_TAG))
 			html.set("class", f"{element.tag} unknown-tag")
-
+		
 		if element.get("id") is not None:
 			html.attrib["id"] = element.get("id")
-
+		
 		if element.tag == LINK:
 			link = element.get(HREF)
 			html.set("href", link)
@@ -108,7 +110,7 @@ class FictionBook:
 		elif element.tag == SECTION:
 			if element[0].tag == TITLE:
 				if html.attrib.get("id") is None:
-					section_id = f"section_{next(id_generator)}"
+					section_id = f"section_{next(section_id_generator)}"
 					html.attrib["id"] = section_id
 					name = ET.tostring(element[0], method="html").decode("utf-8")
 					self.contents.append((name, section_id))
@@ -117,8 +119,6 @@ class FictionBook:
 		for child in element:
 			html.append(self.make_element(child))
 		return html
-
-
 
 
 class Tag:
@@ -135,12 +135,12 @@ class Author(Tag):
 			self.first_name = ft_name_elem.text
 		else:
 			self.first_name = ""
-
+		
 		if lt_name_elem is not None:
 			self.last_name = lt_name_elem.text
 		else:
 			self.last_name = ""
-
+	
 	def __str__(self):
 		return self.first_name + ' ' + self.last_name
 

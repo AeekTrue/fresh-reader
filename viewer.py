@@ -39,8 +39,9 @@ class Viewer:
 		return html
 	
 	def save_view_page(self, text: str):
-		with open(config.OUTPUT_FILE, "w") as f:
-			f.write(text)
+		print(text)
+		with open(config.OUTPUT_FILE, "wb") as f:
+			f.write(text.encode("utf-8"))
 
 
 viewer = Viewer()
