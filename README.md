@@ -1,5 +1,5 @@
 # fresh-reader
-FB2 reader based on web interface.
+Minimalistic FB2 reader based on web interface.
 
 Fresh-reader opens books in your web-browser.
 

@@ -2,27 +2,28 @@
 <FictionBook xmlns:l="http://www.w3.org/1999/xlink" xmlns="http://www.gribuser.ru/xml/fictionbook/2.0">
     <description>
         <title-info>
+            <book-title>Welcome to Fresh-Reader</book-title>
             <genre>comp_soft</genre>
             <author>
                 <nickname>Aeek True</nickname>
             </author>
-            <book-title>Fresh-Reader instruction</book-title>
-            <date value="2022-02-05">2022</date>
+            <date value="2022-03-12">2022</date>
         </title-info>
         <document-info>
             <author>
                 <nickname>Aeek True</nickname>
             </author>
-            <date value="2022-02-13">2022</date>
+            <date value="2022-03-12">2022</date>
         </document-info>
     </description>
     <body>
-        <title>Fresh-Reader</title>
         <section>
-            <p>Это инструкция к Fresh-Reader</p>
-            <p>Этот проект пока в разработке, читайте нас на <a l:href="https://github.com/AeekTrue/fresh-reader.git">GitHub</a></p>
+            <title>Fresh-Reader</title>
+            <p>Fresh-Reader - minimalistic FB2 reader based on web interface.</p>
+            <p>Subscribe to us on <a l:href="https://t.me/freshreader">Telegram</a></p>
+            <p>View source code at <a l:href="https://github.com/AeekTrue/fresh-reader.git">GitHub</a></p>
+            <p>Send feedback to developer: aeektrue@gmail.com</p>
             <p>Designed by Aeek True </p>
-            <p>inst: <a l:href="https://www.instagram.com/aeektrue/">@aeektrue</a></p>
         </section>
     </body>
 </FictionBook>
