@@ -3,7 +3,7 @@ import platform
 import sys
 
 NAME = "fresh-reader"
-VERSION = "0.4.0"
+VERSION = "0.5.0"
 HOME_DIR = os.path.expanduser("~")
 USER_DATA_DIR = os.path.join(HOME_DIR, ".fresh-reader")
 OUTPUT_FILE = os.path.join(USER_DATA_DIR, "fiction-book.html")
