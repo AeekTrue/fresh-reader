@@ -11,10 +11,6 @@ env = jinja2.Environment(
 )
 
 
-def element2str(element: ET.Element):
-	return ET.tostring(element, method="html").decode("utf-8")
-
-
 class Viewer:
 	def __init__(self):
 		self.viewer_page_file = config.OUTPUT_FILE

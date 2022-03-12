@@ -74,14 +74,6 @@ class FictionBook:
 		html = self.make_element(element)
 		return ET.tostring(html, method="html").decode("utf-8")
 	
-	def get_html_of_book(self):
-		html = ET.Element("div", {"id": "fiction-book"})
-		html.append(self.make_element(self.description))
-		for e in self.bodies:
-			if e is not None:
-				html.append(self.make_element(e))
-		return ET.tostring(html, method="html").decode("utf-8")
-	
 	def make_element(self, element: ET.Element) -> ET.Element:
 		if element is None:
 			return ET.Element("div", {"class": "empty"})
@@ -120,35 +112,3 @@ class FictionBook:
 			html.append(self.make_element(child))
 		return html
 
-
-class Tag:
-	def __init__(self, fb2_element: ET.Element):
-		self.raw = fb2_element
-
-
-class Author(Tag):
-	def __init__(self, fb2_element: ET.Element):
-		super(Author, self).__init__(fb2_element)
-		ft_name_elem = fb2_element.find(f"./{FIRST_NAME}")
-		lt_name_elem = fb2_element.find(f"./{LAST_NAME}")
-		if ft_name_elem is not None:
-			self.first_name = ft_name_elem.text
-		else:
-			self.first_name = ""
-		
-		if lt_name_elem is not None:
-			self.last_name = lt_name_elem.text
-		else:
-			self.last_name = ""
-	
-	def __str__(self):
-		return self.first_name + ' ' + self.last_name
-
-
-class Description(Tag):
-	def __init__(self, fb2_element: ET.Element):
-		super(Description, self).__init__(fb2_element)
-		self._raw = fb2_element
-		self.title_info = ""
-		self.book_title = fb2_element.find(f"./{TITLE_INFO}/{BOOK_TITLE}").text
-		self.author = Author(fb2_element.find(f"./{TITLE_INFO}/{AUTHOR}"))
