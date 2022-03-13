@@ -8,12 +8,14 @@
 </head>
 <body>
 <div id="top-sidebar" class="sidebar">
-    <h3 class="sidebar-title">About document:</h3>
+    <h3 class="sidebar-title">About fb2-document:</h3>
     {{ document_info }}
     <hr>
     {{ publish_info }}
     <hr>
-    <p>{{ reader_info }}</p>
+    <div id="reader_info">
+        <p>{{ reader_info }}</p>
+    </div>
 </div>
 
 <div id="bottom-sidebar" class="sidebar">
@@ -37,7 +39,7 @@
     {{ notes }}
 </div>
 
-<button id="back-button" onclick="goToScrollPos()">Назад в будущее</button>
+<button id="back-button" onclick="goToScrollPos()">Back to reading</button>
 <script type="text/javascript">{% include 'script.js' %}</script>
 </body>
 </html>
