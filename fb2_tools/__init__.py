@@ -58,10 +58,10 @@ class FictionBook:
 	def __init__(self, file):
 		tree = ET.parse(file)
 		self.raw = tree.getroot()
-		self.description = self.raw.find(xpath.DESCRIPTION)
 		self.title_info = self.raw.find(xpath.TITLE_INFO)
-		self.title = self.title_info.find(f"./{BOOK_TITLE}").text
-		self.bodies = self.raw.findall(f"./{BODY}")
+		self.bodies = self.raw.findall(xpath.BODY)
+		
+		self.title = self.raw.find(xpath.BOOK_TITLE).text
 		self.contents = []
 	
 	def html(self, path: str):
@@ -72,14 +72,6 @@ class FictionBook:
 		"""
 		element = self.raw.find(path)
 		html = self.make_element(element)
-		return ET.tostring(html, method="html").decode("utf-8")
-	
-	def get_html_of_book(self):
-		html = ET.Element("div", {"id": "fiction-book"})
-		html.append(self.make_element(self.description))
-		for e in self.bodies:
-			if e is not None:
-				html.append(self.make_element(e))
 		return ET.tostring(html, method="html").decode("utf-8")
 	
 	def make_element(self, element: ET.Element) -> ET.Element:
