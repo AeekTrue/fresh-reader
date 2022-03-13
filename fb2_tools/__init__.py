@@ -55,8 +55,8 @@ section_id_generator = gen_id()
 
 
 class FictionBook:
-	def __init__(self, path):
-		tree = ET.parse(path)
+	def __init__(self, file):
+		tree = ET.parse(file)
 		self.raw = tree.getroot()
 		self.description = self.raw.find(xpath.DESCRIPTION)
 		self.title_info = self.raw.find(xpath.TITLE_INFO)
